@@ -7,9 +7,9 @@ import jwt
 # import sys, os
 # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
-from back.app.models import users
+# from back.app.models import users
 
-# from ..models import users
+from models import users
 from common.config import conf
 
 router = APIRouter(
@@ -31,11 +31,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 async def auth_check(token):
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-        print(payload)
-        print(payload["email"])
         email : str = payload.get('email')
         if email:
-            print('이메일 있음')
             user_info = users.UserModel.get_email_user(email)
             if user_info:
                 return {
@@ -53,8 +50,6 @@ async def auth_check(token):
                 }
     except jwt.exceptions.InvalidTokenError:
         return JSONResponse(status_code=401, content={"message": "토큰 인증 실패"})
-
-
 
 
 @router.get("/")

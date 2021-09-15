@@ -12,6 +12,8 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'http://localhost:8000' : 'http://localhost:8000';
 console.log('env', process.env.NODE_ENV === 'production');
 
+axios.defaults.headers.common.Authorization = `Bearer ${JSON.parse(window.localStorage.getItem('access_token'))}`;
+
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle />

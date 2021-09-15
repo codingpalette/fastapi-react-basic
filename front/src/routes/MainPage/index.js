@@ -12,6 +12,10 @@ const MainPage = () => {
   if (error && !userData) {
     return <Redirect to="/login" />;
   }
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <MainTemplate>

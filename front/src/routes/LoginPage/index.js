@@ -7,7 +7,6 @@ import useSWR from 'swr';
 import fetcher from '../../utils/fetcher';
 
 const LoginPage = () => {
-  axios.defaults.headers.common.Authorization = `Bearer ${JSON.parse(window.localStorage.getItem('access_token'))}`;
   const { data: userData, error, revalidate } = useSWR('/users', fetcher);
 
   const history = useHistory();
@@ -18,10 +17,7 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const res = await axios.post('/users/login', values);
-      console.log(res);
       if (res.data.result === 'success') {
-        message.info(res.data.message);
-
         // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
         axios.defaults.headers.common.Authorization = `Bearer ${res.data.access_token}`;
         window.localStorage.setItem('access_token', JSON.stringify(res.data.access_token));
@@ -46,6 +42,10 @@ const LoginPage = () => {
 
   if (!error && userData) {
     return <Redirect to="/" />;
+  }
+
+  if (!userData) {
+    return <div>Loading...</div>;
   }
 
   return (

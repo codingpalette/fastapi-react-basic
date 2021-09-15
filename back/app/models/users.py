@@ -12,7 +12,13 @@ class UserModel():
 
     def join(data):
         #mysql
-        conn = pymysql.connect(host='localhost', user='root', password='root', db='test', charset='utf8')
+        conn = pymysql.connect(
+            host=conf().DB_HOST,
+            user=conf().DB_USER,
+            password=conf().DB_PASSWORD,
+            db=conf().DB_NAME,
+            charset='utf8'
+        )
         try:
             curs = conn.cursor(pymysql.cursors.DictCursor)
             email_sql = '''SELECT email FROM users WHERE email = %s;'''
@@ -50,7 +56,8 @@ class UserModel():
                     # access_token = Authorize.create_access_token(subject=user.username)
                     # refresh_token = Authorize.create_refresh_token(subject=user.username)
 
-                    payload = {"email":data.email , 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=300)}
+                    # payload = {"email":data.email , 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=300)}
+                    payload = {"email":data.email}
                     key = conf().SECRET_KEY
                     alg = 'HS256'
                     access_token = jwt.encode(payload=payload, key=key, algorithm=alg)

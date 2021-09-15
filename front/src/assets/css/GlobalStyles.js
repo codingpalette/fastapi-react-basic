@@ -2,6 +2,10 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   
+  html{
+    font-size: 14px;
+  }
+  
   html, body, #root {
     height: 100%;
   }
