@@ -3,7 +3,13 @@ from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
 import jwt
-from models import users
+
+# import sys, os
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
+from back.app.models import users
+
+# from ..models import users
 from common.config import conf
 
 router = APIRouter(
